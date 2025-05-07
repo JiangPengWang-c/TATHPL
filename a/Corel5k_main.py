@@ -21,7 +21,7 @@ from timm.optim import create_optimizer
 from timm.utils import NativeScaler, get_state_dict, ModelEma
 from datasets import build_dataset
 from engine import train_one_epoch, evaluate
-from losses import DistillationLoss, HiLoss, MaskSoftTargetCrossEntropy, SigSoftTargetCrossEntropy,TPLoss
+from losses import  MaskSoftTargetCrossEntropy, SigSoftTargetCrossEntropy,TPLoss
 from samplers import RASampler
 
 from torch.optim import lr_scheduler

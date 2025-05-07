@@ -54,7 +54,7 @@ def main():
     topics = lda.transform(tf)
     print(topics[0])
     s = str(topics[0]) + '\n'
-    f = open("/home/featurize/work/LDA/Corel5k.txt", 'w')
+    f = open("/home/featurize/work/Topic Model/Corel5k.txt", 'w')
     for i in range(len(topics)):
         s=str(topics[i]) + '\n'
         s=s[1:-2]

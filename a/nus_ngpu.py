@@ -22,14 +22,12 @@ from timm.utils import NativeScaler, get_state_dict, ModelEma
 
 from datasets import build_dataset
 from engine import train_one_epoch, evaluate
-from losses import DistillationLoss, HiLoss, MaskSoftTargetCrossEntropy, SigSoftTargetCrossEntropy,TPLoss
+from losses import  MaskSoftTargetCrossEntropy, SigSoftTargetCrossEntropy,TPLoss
 from samplers import RASampler
-from augment import new_data_aug_generator
+
 from torch.optim import lr_scheduler
 from torch.utils.data import random_split
-import model_learn 
-import models_v2
-
+import model_learn
 
 from helper_functions import mAP, CocoDetection, CutoutPIL, ModelEma, \
     add_weight_decay,Corel5k,compute_mAP,micro_f1,macro_f1,one_error,get_auc,nus
