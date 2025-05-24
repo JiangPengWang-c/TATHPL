@@ -340,7 +340,7 @@ class CocoDetection(datasets.coco.CocoDetection):
                 self.img_to_topic[res[0]] = res_topic_float
                 # self.img_to_topic[res[0]]=res_topic
         else:
-            file=open("MSCOCO/targets2014/total/img_to_index2(300).txt")
+            file=open("MSCOCO/targets2014/val/img_to_index2(300).txt")
             topics=file.readlines()
             self.img_to_topic={}
             for i in range(len(topics)):
