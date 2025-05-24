@@ -14,6 +14,7 @@ from sklearn.decomposition import LatentDirichletAllocation
 parser = argparse.ArgumentParser(description='PyTorch Training')
 #parser.add_argument('--dataset', help='(coco,voc,nuswide)', default='coco')
 parser.add_argument('--train_one_hot_vector_path', help='path to dataset', default="Corel5k/Corel5k/my_train_label.txt")
+parser.add_argument('--output_path', help='', default="Corel5k/target/train/index/train_tp_class2(300).txt")
 parser.add_argument('--n_features',help="", default=1000)
 parser.add_argument('--n_topics',help="", default=2)
 args = parser.parse_args()
@@ -54,7 +55,7 @@ def main():
     topics = lda.transform(tf)
     print(topics[0])
     s = str(topics[0]) + '\n'
-    f = open("Corel5k/target/train/index/index_2(300).txt", 'w')
+    f = open(args.output_path, 'w')
     for i in range(len(topics)):
         s=str(topics[i]) + '\n'
         s=s[1:-2]
