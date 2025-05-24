@@ -247,20 +247,16 @@ def validate_multi(val_loader, model, ema_model,highest_mAP):
         targets.append(target.cpu().detach())
         preds_base.append(output_regular.cuda())
     preds_binary = []
-    a=torch.cat(preds_base)
+    a=torch.cat(preds_ema)
     preds_binary = torch.where(a > 0.8, torch.tensor(1), torch.tensor(0)).cpu()    
     mAP_score_regular = mAP(torch.cat(targets).numpy(), torch.cat(preds_regular).numpy())
     mAP_score_ema = mAP(torch.cat(targets).numpy(), torch.cat(preds_ema).numpy())
-    Hamming_loss = hamming_loss(torch.cat(preds_base), torch.cat(targets).cuda())
+    Hamming_loss = hamming_loss(torch.cat(preds_ema), torch.cat(targets).cuda())
     mcm = multilabel_confusion_matrix(torch.cat(targets).numpy(), preds_binary)
     mif1 = micro_f1(mcm)
     maf1 = macro_f1(mcm)
-    one_err = one_error(torch.cat(targets).numpy(), torch.cat(preds_base))
+    one_err = one_error(torch.cat(targets).numpy(), torch.cat(preds_ema))
     auc = get_auc(torch.cat(targets).numpy(),torch.cat(preds_regular).numpy())
-    if max(mAP_score_regular,mAP_score_ema)>=81.85:
-        torch.save(targets,'/home/featurize/work/re/coco_base_target26(0.3).pth')
-        torch.save(preds_base,'/home/featurize/work/re/coco_base_preds26(0.3).pth')
-        torch.save(preds_ema,'/home/featurize/work/re/coco_base_ema26(0.3).pth')
     print("mAP score regular {:.5f}, mAP score EMA {:.5f},OF1 score{:.3f},OP score{:.3f},OR1 score{:.3f},CF1 score{:.3f},CP score{:.3f},CR score{:.3f},one_error score {:.3f},auc {:.3f}, Hamming_Loss score{:.3f},".format(mAP_score_regular, mAP_score_ema,mif1[0],mif1[1],mif1[2],maf1[0],maf1[1],maf1[2],one_err,auc,Hamming_loss,))
     return max(mAP_score_regular, mAP_score_ema),preds_base,targets
  
@@ -268,7 +264,6 @@ from sklearn.metrics import hamming_loss
 
 def computer_hamming_loss(y_true,y_pred):
     y_hot = torch.round(y_pred)
-    #y_true = y_true.max(dim=1)[0].type(torch.float64)
     HammingLoss = []
     for i in range(y_pred.shape[0]):
         H = hamming_loss(y_true[i, :], y_hot[i, :])

@@ -390,10 +390,10 @@ def resize_pos_embed(posemb, posemb_new, num_tokens=1, gs_new=()):
 
 
 def adapt_weights(checkpoint, model):
-    # 去除classifiication head
+    # move classifiication head
     checkpoint.pop('head.weight')
     checkpoint.pop('head.bias')
-    # 改变position encodeing
+    # resize position encodeing
     pos_embed_w = checkpoint["pos_embed"]
     pos_embed_w = resize_pos_embed(  # resize pos embedding when different size from pretrained weights
         pos_embed_w, model.pos_embed, getattr(model, 'num_tokens', 1), model.patch_embed.grid_size)

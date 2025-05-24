@@ -139,7 +139,7 @@ def train_multi_label_coco(model, train_loader, val_loader, lr):
     # set optimizer
     Epochs = 50
     weight_decay = 1e-4
-    # criterion = TPLoss(nn.BCEWithLogitsLoss(), nn.CrossEntropyLoss())
+
 
     parameters = add_weight_decay(model, weight_decay)
     optimizer = torch.optim.Adam(params=parameters, lr=lr, weight_decay=0)

@@ -24,13 +24,13 @@ def print_top_words(model, feature_names, n_top_words):
         tword.append(topic_w)
     return tword
 def main():
-    #train_one_hot_vector_path ='/home/featurize/data/text2.txt'
+
     f = open(args.train_one_hot_vector_path)
     lines=f.readlines()
     list=[]
     for line in lines:
         list.append(line.strip())
-  # 提取1000个特征词语
+
     tf_vectorizer = CountVectorizer(strip_accents='unicode',
                                     max_features=args.n_features,
                                     stop_words='english',
@@ -45,7 +45,7 @@ def main():
                                     learning_offset=100,
                                     # doc_topic_prior=0.2,#1/K
                                     # topic_word_prior=0.2,#1/K
-                                    random_state=666)  # 关于模型的参数,可查看官方文档
+                                    random_state=666)
     lda.fit(tf)
 
     n_top_words = 40
@@ -54,7 +54,7 @@ def main():
     topics = lda.transform(tf)
     print(topics[0])
     s = str(topics[0]) + '\n'
-    f = open("/home/featurize/work/Topic Model/Corel5k.txt", 'w')
+    f = open("Corel5k/target/train/index/index_2(300).txt", 'w')
     for i in range(len(topics)):
         s=str(topics[i]) + '\n'
         s=s[1:-2]
@@ -71,7 +71,7 @@ def main():
         f.write(ss)
     f.close()
     print(len(lines))
-    f.close()
+
 
 
 

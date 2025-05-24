@@ -261,19 +261,6 @@ def main(args):
     print(len(total_dataset))
 
 
-#     train_size = int(len(test_dataset) * 0.0001)
-#     valid_size = len(test_dataset) - train_size
-#     train_dataset, val_dataset = random_split(test_dataset, [train_size, valid_size])
-
-#     train_loader = torch.utils.data.DataLoader(
-#         train_dataset, batch_size=2, shuffle=True,
-#         num_workers=0, pin_memory=True)
-
-#     val_loader = torch.utils.data.DataLoader(
-#         val_dataset, batch_size=256, shuffle=False,
-#         num_workers=0, pin_memory=False)
-
-
     mixup_fn = None
     mixup_active = False #args.mixup > 0 or args.cutmix > 0. or args.cutmix_minmax is not None
     if mixup_active:
