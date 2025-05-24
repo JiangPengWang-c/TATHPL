@@ -204,7 +204,7 @@ def get_args_parser():
                         help='dataset path')
     parser.add_argument('--voc2012_num_class', default=20, type=str,
                         help='dataset path')
-    parser.add_argument('--data_nus', default="/home/featurize/data/nus-wide", type=str,
+    parser.add_argument('--data_nus', default="NUS-WIDE", type=str,
                         help='dataset path')
     parser.add_argument('--nus_class', default=81, type=str,
                         help='dataset path')
@@ -233,10 +233,10 @@ def main(args):
      
 #nus-wide:
     
-    data_path_train = '/home/featurize/data/nus-wide/mine/train_image_path.txt'
-    data_path_test = '/home/featurize/data/nus-wide/mine/test_image_path.txt'
-    lable_path_train = '/home/featurize/data/nus-wide/mine/train_image_label_one_hot.txt'
-    lable_path_test = '/home/featurize/data/nus-wide/mine/test_image_label_one_hot.txt'
+    data_path_train = 'NUS-WIDE/mine/train_image_path.txt'
+    data_path_test = '/NUS-WIDE/mine/test_image_path.txt'
+    lable_path_train = 'NUS-WIDE/mine/train_image_label_one_hot.txt'
+    lable_path_test = '/NUS-WIDE/mine/test_image_label_one_hot.txt'
     
     test_dataset = nus(data_path_test, lable_path_test, transforms.Compose([
         transforms.Resize((args.input_size, args.input_size)),
@@ -377,10 +377,6 @@ def validate_multi(val_loader, model, ema_model,highest_mAP):
     maf1 = macro_f1(mcm)
     one_err = one_error(torch.cat(targets).numpy(), torch.cat(preds_base))
     auc = get_auc(torch.cat(targets).numpy(),torch.cat(preds_regular).numpy())
-    if max(mAP_score_regular,mAP_score_ema)>=66.9:
-        torch.save(targets,'/home/featurize/work/re/nus_base_target2(0.1).pth')
-        torch.save(preds_base,'/home/featurize/work/re/nus_base_preds2(0.1).pth')
-        torch.save(preds_ema,'/home/featurize/work/re/nus_base_ema2(0.1).pth')
     print("mAP score regular {:.3f}, mAP score EMA {:.3f},OF1 score{:.3f},OP score{:.3f},OR1 score{:.3f},CF1 score{:.3f},CP score{:.3f},CR score{:.3f},one_error score {:.3f},auc {:.3f}, Hamming_Loss score{:.3f},".format(mAP_score_regular, mAP_score_ema,mif1[0],mif1[1],mif1[2],maf1[0],maf1[1],maf1[2],one_err,auc,Hamming_loss,))
     return max(mAP_score_regular, mAP_score_ema)
 
@@ -396,25 +392,16 @@ def computer_hamming_loss(y_true,y_pred):
     res=torch.stack(HammingLoss)
     return torch.mean(res)
 def hamming_loss(preds, targets):
-    """
-    计算多标签分类Hamming Loss的函数。
-    :param preds: 预测的概率值，大小为 [batch_size, num_classes]
-    :param targets: 目标标签值，大小为 [batch_size, num_classes]
-    :return: 多标签分类Hamming Loss的值，大小为 [1]
-    """
-    # 将概率值转换为二进制标签（0或1）
 
     binary_preds = torch.round(preds)
-    # 计算Hamming Loss
     hamming_loss = 1 - (binary_preds == targets).float().mean()
     return hamming_loss
 def draw_mAP(mAP):
 
     x_axis_data=(np.ones(len(mAP)))
     x_axis_data=np.cumsum((x_axis_data))
-    plt.plot(x_axis_data, mAP, 'b*--', alpha=0.5, linewidth=1, label='mAP')  # 'bo-'表示蓝色实线，数据点实心原点标注
-    ## plot中参数的含义分别是横轴值，纵轴值，线的形状（'s'方块,'o'实心圆点，'*'五角星   ...，颜色，透明度,线的宽度和标签 ，
-    plt.legend()  # 显示上面的label
+    plt.plot(x_axis_data, mAP, 'b*--', alpha=0.5, linewidth=1, label='mAP')
+    plt.legend()
     plt.xlabel('Epoch')  # x_label
     plt.ylabel('mAP')  # y_label
 
@@ -427,10 +414,6 @@ def f1_loss(preds, targets):
     for i in range(len(binary_preds[0])):
         if binary_preds[0][i]==1:
             one_t=one_t+1
-    #print(one_t)
-    # print(precision_score(targets[0, :].cpu(), binary_preds[0, :].cpu()))
-    # print(recall_score(targets[0, :].cpu(), binary_preds[0, :].cpu()))
-    # print(f1_score(targets[0, :].cpu(), binary_preds[0, :].cpu()))
     for i in range(targets.shape[0]):
         H = f1_score(targets[i, :].cpu(), binary_preds[i, :].cpu())
         f1.append(H)

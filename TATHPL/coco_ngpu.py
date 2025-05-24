@@ -71,7 +71,7 @@ def get_args_parser():
     parser.set_defaults(pin_mem=False)
     parser.add_argument('--world_size', default=1, type=int,
                         help='number of distributed processes')
-    parser.add_argument('--data_coco', default="/home/featurize/data//coco2014", type=str,
+    parser.add_argument('--data_coco', default="MSCOCO", type=str,
                         help='dataset path')
 
     parser.add_argument('--coco_num_class', default=80, type=int,
@@ -111,8 +111,8 @@ def main(args):
 
 
 #MS COCO
-    instances_path_val = '/home/featurize/data/coco2014/annotations/instances_val2014.json'
-    instances_path_train =  '/home/featurize/data/coco2014/annotations/instances_train2014.json'
+    instances_path_val = 'MSCOCO/annotations/instances_val2014.json'
+    instances_path_train =  '/MSCOCO/annotations/instances_train2014.json'
     data_path_val = f'{args.data_coco}/val2014'  # args.data
     data_path_train = f'{args.data_coco}/train2014'  # args.data
     test_dataset = CocoDetection(data_path_val,
@@ -203,12 +203,6 @@ def train_multi_label_coco(model, train_loader, val_loader, lr):
         else :patience=0
         print(patience)
         if mAP_score > highest_mAP:
-            if epoch>=7:
-                res = {
-                    'preds':preds,
-                    'targets':targets
-                }
-                torch.save(res,'/home/featurize/work/coco_res/coco_res_20in6_384.pth')
             highest_mAP = mAP_score
             best_epoch=epoch
         print('current_mAP = {:.2f}, highest_mAP = {:.2f}\n'.format(mAP_score, highest_mAP))
@@ -267,25 +261,16 @@ def computer_hamming_loss(y_true,y_pred):
     res=torch.stack(HammingLoss)
     return torch.mean(res)
 def hamming_loss(preds, targets):
-    """
-    计算多标签分类Hamming Loss的函数。
-    :param preds: 预测的概率值，大小为 [batch_size, num_classes]
-    :param targets: 目标标签值，大小为 [batch_size, num_classes]
-    :return: 多标签分类Hamming Loss的值，大小为 [1]
-    """
-    # 将概率值转换为二进制标签（0或1）
 
     binary_preds = torch.round(preds)
-    # 计算Hamming Loss
     hamming_loss = 1 - (binary_preds == targets).float().mean()
     return hamming_loss
 def draw_mAP(mAP):
 
     x_axis_data=(np.ones(len(mAP)))
     x_axis_data=np.cumsum((x_axis_data))
-    plt.plot(x_axis_data, mAP, 'b*--', alpha=0.5, linewidth=1, label='mAP')  # 'bo-'表示蓝色实线，数据点实心原点标注
-    ## plot中参数的含义分别是横轴值，纵轴值，线的形状（'s'方块,'o'实心圆点，'*'五角星   ...，颜色，透明度,线的宽度和标签 ，
-    plt.legend()  # 显示上面的label
+    plt.plot(x_axis_data, mAP, 'b*--', alpha=0.5, linewidth=1, label='mAP')
+    plt.legend()
     plt.xlabel('Epoch')  # x_label
     plt.ylabel('mAP')  # y_label
 
@@ -298,10 +283,6 @@ def f1_loss(preds, targets):
     for i in range(len(binary_preds[0])):
         if binary_preds[0][i]==1:
             one_t=one_t+1
-    #print(one_t)
-    # print(precision_score(targets[0, :].cpu(), binary_preds[0, :].cpu()))
-    # print(recall_score(targets[0, :].cpu(), binary_preds[0, :].cpu()))
-    # print(f1_score(targets[0, :].cpu(), binary_preds[0, :].cpu()))
     for i in range(targets.shape[0]):
         H = f1_score(targets[i, :].cpu(), binary_preds[i, :].cpu())
         f1.append(H)

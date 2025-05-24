@@ -245,25 +245,15 @@ def computer_hamming_loss(y_true,y_pred):
     res=torch.stack(HammingLoss)
     return torch.mean(res)
 def hamming_loss(preds, targets):
-    """
-    计算多标签分类Hamming Loss的函数。
-    :param preds: 预测的概率值，大小为 [batch_size, num_classes]
-    :param targets: 目标标签值，大小为 [batch_size, num_classes]
-    :return: 多标签分类Hamming Loss的值，大小为 [1]
-    """
-    # 将概率值转换为二进制标签（0或1）
-
     binary_preds = torch.round(preds)
-    # 计算Hamming Loss
     hamming_loss = 1 - (binary_preds == targets).float().mean()
     return hamming_loss
 def draw_mAP(mAP):
 
     x_axis_data=(np.ones(len(mAP)))
     x_axis_data=np.cumsum((x_axis_data))
-    plt.plot(x_axis_data, mAP, 'b*--', alpha=0.5, linewidth=1, label='mAP')  # 'bo-'表示蓝色实线，数据点实心原点标注
-    ## plot中参数的含义分别是横轴值，纵轴值，线的形状（'s'方块,'o'实心圆点，'*'五角星   ...，颜色，透明度,线的宽度和标签 ，
-    plt.legend()  # 显示上面的label
+    plt.plot(x_axis_data, mAP, 'b*--', alpha=0.5, linewidth=1, label='mAP')
+    plt.legend()
     plt.xlabel('Epoch')  # x_label
     plt.ylabel('mAP')  # y_label
 

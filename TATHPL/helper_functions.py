@@ -18,7 +18,6 @@ import pickle
 from sklearn.metrics import average_precision_score,roc_auc_score
  
 def get_auc(target,preds):
-    # 计算每个标签的AUC值，并对所有标签的AUC值求平均
     total_auc=0.
     auc=0
     for i in range(target.shape[1]):
@@ -207,7 +206,7 @@ class voc2007(torch.utils.data.Dataset):
 class nus(torch.utils.data.Dataset):
     def __init__(self, data_path, lable_path, transform=None, target_transform=None, is_train=True):
         super().__init__()
-        self.base_dir='/home/featurize/data/nus-wide/Flickr/'
+        self.base_dir='NUS-WIDE/Flickr/'
         self.is_train = is_train 
         self.data_path = data_path
         self.lable_path = lable_path
@@ -229,14 +228,8 @@ class nus(torch.utils.data.Dataset):
         self.transform = transform
         self.target_transform = target_transform
         self.topic_dict = {}
-        # file = open("/home/featurize/data/nus-wide/mine/train/img_to_tp2(300).txt")
-        # total_topics = file.readlines()
-        # for i in range(len(total_topics)):
-        #     res = total_topics[i].strip().split(':')
-        #     res_topic = res[1].split(' ')
-        #     self.topic_dict[res[0]] = res_topic
         if is_train:
-            file = open("/home/featurize/data/nus-wide/mine/train/img_to_index2(300).txt") 
+            file = open("NUS-WIDE/mine/train/img_to_index2(300).txt")
             total_topics = file.readlines()
             for i in range(len(total_topics)):
                 res = total_topics[i].strip().split(':')
@@ -244,22 +237,13 @@ class nus(torch.utils.data.Dataset):
                 res_topic=list(map(float, res_topic)) 
                 self.topic_dict[res[0]] = res_topic
         else:
-            file = open("/home/featurize/data/nus-wide/mine/val/res50/result3/result3+epoch0.txt")
+            file = open("NUS-WIDE/mine/val/res50/result2/result2+epoch0.txt")
             total_topics = file.readlines()
             for i in range(len(total_topics)):
                 res = total_topics[i].strip().split(' ')
                 res_topic = res[1].split(' ') 
                 res_topic=list(map(float, res_topic))
                 self.topic_dict[res[0]] = res_topic
-        # else:
-        #     file = open("/home/featurize/data/nus-wide/mine/val/result2+epoch1.txt")
-        #     total_topics = file.readlines()
-        #     for i in range(len(total_topics)):
-        #         res = total_topics[i].strip().split(':')
-        #         #print(res[1])
-        #         res_topic = res[1].split(' ')
-        #         self.topic_dict[res[0]] = res_topic
-        
 
     def __len__(self):
         return len(self.img_id)
@@ -346,7 +330,7 @@ class CocoDetection(datasets.coco.CocoDetection):
         for cat in self.coco.cats.keys():
             self.cat2cat[cat] = len(self.cat2cat)
         if is_train:
-            file=open("/home/featurize/data/coco2014/targets2014/train/img_to_index2+6(300).txt")
+            file=open("MSCOCO/targets2014/train/img_to_index2+6(300).txt")
             topics=file.readlines()
             self.img_to_topic={}
             for i in range(len(topics)):
@@ -356,7 +340,7 @@ class CocoDetection(datasets.coco.CocoDetection):
                 self.img_to_topic[res[0]] = res_topic_float
                 # self.img_to_topic[res[0]]=res_topic
         else:
-            file=open("/home/featurize/data/coco2014/targets2014/total/img_to_index2(300).txt")
+            file=open("MSCOCO/targets2014/total/img_to_index2(300).txt")
             topics=file.readlines()
             self.img_to_topic={}
             for i in range(len(topics)):
