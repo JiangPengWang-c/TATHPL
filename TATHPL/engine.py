@@ -14,7 +14,7 @@ import torch
 from timm.data import Mixup
 from timm.utils import accuracy, ModelEma
 
-from losses import DistillationLoss, HiLoss, TPLoss
+from losses import  TPLoss
 import utils
 
 import gc

@@ -7,29 +7,26 @@ import time
 import torch
 import torch.nn as nn
 import torch.backends.cudnn as cudnn
-import json
+
 import matplotlib.pyplot as plt
 from pathlib import Path
 from sklearn.metrics import classification_report
 from sklearn.metrics import precision_score, recall_score, f1_score,accuracy_score,zero_one_loss,multilabel_confusion_matrix,label_ranking_loss,roc_auc_score
-import timm
-from timm.data import Mixup
+
 from timm.models import create_model
-from timm.loss import LabelSmoothingCrossEntropy, SoftTargetCrossEntropy
-from timm.scheduler import create_scheduler
-from timm.optim import create_optimizer
-from timm.utils import NativeScaler, get_state_dict, ModelEma
-from datasets import build_dataset
-from engine import train_one_epoch, evaluate
-from losses import  MaskSoftTargetCrossEntropy, SigSoftTargetCrossEntropy,TPLoss
-from samplers import RASampler
+
+from timm.utils import NativeScaler,  ModelEma
+
+from engine import train_one_epoch
+from losses import TPLoss
+
 
 from torch.optim import lr_scheduler
 from torch.utils.data import random_split
 import model_learn
 from helper_functions import mAP, CocoDetection, CutoutPIL, ModelEma, \
     add_weight_decay,Corel5k,compute_mAP,micro_f1,macro_f1,one_error,get_auc
-#from randaugment import RandAugment
+from randaugment import RandAugment
 import os
 import torchvision.transforms as transforms
 from loss import AsymmetricLoss
