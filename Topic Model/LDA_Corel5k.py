@@ -24,13 +24,11 @@ def print_top_words(model, feature_names, n_top_words):
         tword.append(topic_w)
     return tword
 def main():
-    #train_one_hot_vector_path ='/home/featurize/data/text2.txt'
     f = open(args.train_one_hot_vector_path)
     lines=f.readlines()
     list=[]
     for line in lines:
         list.append(line.strip())
-  # 提取1000个特征词语
     tf_vectorizer = CountVectorizer(strip_accents='unicode',
                                     max_features=args.n_features,
                                     stop_words='english',
@@ -45,7 +43,7 @@ def main():
                                     learning_offset=100,
                                     # doc_topic_prior=0.2,#1/K
                                     # topic_word_prior=0.2,#1/K
-                                    random_state=666)  # 关于模型的参数,可查看官方文档
+                                    random_state=666) 
     lda.fit(tf)
 
     n_top_words = 40
