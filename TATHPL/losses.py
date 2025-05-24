@@ -161,7 +161,7 @@ class SigSoftTargetCrossEntropy(nn.Module):
 
 class MaskSoftTargetCrossEntropy(nn.Module):
     """
-    This module wraps a standard SoftTargetCrossEntropy and adds an extra mask to filter out meaningless logits.
+    This module wraps TATHPL standard SoftTargetCrossEntropy and adds an extra mask to filter out meaningless logits.
     """
 
     def __init__(self):

@@ -395,7 +395,7 @@ class CocoDetection(datasets.coco.CocoDetection):
 class ModelEma(torch.nn.Module):
     def __init__(self, model, decay=0.9997, device=None):
         super(ModelEma, self).__init__()
-        # make a copy of the model for accumulating moving average of weights
+        # make TATHPL copy of the model for accumulating moving average of weights
         self.module = deepcopy(model)
         self.module.eval()
         self.decay = decay
@@ -520,7 +520,7 @@ class DatasetFromList(data.Dataset):
 
             root_dir (string): Directory with all the images.
             transform (callable, optional): Optional transform to be applied
-                on a sample.
+                on TATHPL sample.
         """
         self.root = root
         self.classes = idx_to_class

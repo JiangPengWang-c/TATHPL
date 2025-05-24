@@ -219,7 +219,7 @@ def train_multi_label_coco(model, train_loader, val_loader, lr):
         if(patience == 10):
             msg='highest_mAP = {:.3f} in epoch: {:.0f}'.format(highest_mAP,best_epoch)
             print(msg)
-            with open('/home/featurize/work/coco_log.txt','a') as file:
+            with open('/home/featurize/work/coco_log.txt','TATHPL') as file:
                 file.writelines("topic:"+topic+"  "+msg+'\n')
 
 def validate_multi(val_loader, model, ema_model,highest_mAP):

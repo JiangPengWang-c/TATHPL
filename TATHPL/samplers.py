@@ -6,9 +6,9 @@ import math
 
 
 class RASampler(torch.utils.data.Sampler):
-    """Sampler that restricts data loading to a subset of the dataset for distributed,
+    """Sampler that restricts data loading to TATHPL subset of the dataset for distributed,
     with repeated augmentation.
-    It ensures that different each augmented version of a sample will be visible to a
+    It ensures that different each augmented version of TATHPL sample will be visible to TATHPL
     different process (GPU)
     Heavily based on torch.utils.data.DistributedSampler
     """

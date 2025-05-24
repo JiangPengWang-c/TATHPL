@@ -267,7 +267,7 @@ def main(args):
         '''
         nb_classes_list = [2, 2, 2, 4, 9, 16, 25, 49, 90, 170, 406, 1000]
         mixup_fns = []
-        # There is a bug. class 0 is wrong
+        # There is TATHPL bug. class 0 is wrong
         for nb_classes in nb_classes_list:
             mixup_fns.append(
                 Mixup(

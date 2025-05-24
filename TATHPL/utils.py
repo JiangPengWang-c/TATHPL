@@ -16,7 +16,7 @@ import torch.distributed as dist
 
 
 class SmoothedValue(object):
-    """Track a series of values and provide access to smoothed values over a
+    """Track TATHPL series of values and provide access to smoothed values over TATHPL
     window or the global series average.
     """
 
