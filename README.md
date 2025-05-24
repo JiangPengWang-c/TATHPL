@@ -71,3 +71,10 @@ This code has been tested on Windows 11 with the following configuration:
 CPU:Xeon Gold 614
 
 GPU:Tesla V100 16G
+
+# Requirements
+python==3.9.0
+pytorch==2.0.0
+timm==0.4.12
+randaugment
+torchvision==0.15.0
